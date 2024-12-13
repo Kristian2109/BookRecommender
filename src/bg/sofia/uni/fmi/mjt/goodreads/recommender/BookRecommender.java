@@ -34,7 +34,6 @@ public class BookRecommender implements BookRecommenderAPI {
                         HashMap::new
                 ));
 
-
         return booksByScore.entrySet().stream()
                 .sorted((a, b) -> Double.compare(booksByScore.get(b.getKey()), booksByScore.get(a.getKey())))
                 .skip(1)
