@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class BookLoader {
 
     public static Set<Book> load(Reader reader) {
-
         try (CSVReader csvReader = new CSVReader(reader)) {
             return csvReader.readAll().stream()
                     .skip(1)
@@ -22,7 +21,5 @@ public class BookLoader {
         } catch (IOException | CsvException ex) {
             throw new IllegalArgumentException("Could not load dataset", ex);
         }
-
     }
-    
 }
