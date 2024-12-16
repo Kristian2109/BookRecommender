@@ -33,5 +33,4 @@ public class TextTokenizer {
     public Set<String> stopwords() {
         return stopwords;
     }
-
 }
