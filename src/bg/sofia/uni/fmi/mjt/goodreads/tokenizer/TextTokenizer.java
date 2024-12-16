@@ -21,7 +21,10 @@ public class TextTokenizer {
     }
 
     public List<String> tokenize(String input) {
-        return Arrays.stream(input.split(" "))
+        return Arrays.stream(input
+                        .replaceAll("\\p{Punct}", "")
+                        .split("\\s+")
+                )
                 .filter(word -> !stopwords.contains(word))
                 .toList();
     }
