@@ -25,6 +25,7 @@ public class TextTokenizer {
                         .replaceAll("\\p{Punct}", "")
                         .split("\\s+")
                 )
+                .map(String::toLowerCase)
                 .filter(word -> !stopwords.contains(word))
                 .toList();
     }

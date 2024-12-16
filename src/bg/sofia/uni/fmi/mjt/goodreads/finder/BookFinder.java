@@ -9,9 +9,11 @@ import java.util.stream.Stream;
 
 public class BookFinder implements BookFinderAPI {
     private final Set<Book> books;
+    private final TextTokenizer tokenizer;
 
     public BookFinder(Set<Book> books, TextTokenizer tokenizer) {
         this.books = books;
+        this.tokenizer = tokenizer;
     }
 
     public Set<Book> allBooks() {
@@ -52,8 +54,8 @@ public class BookFinder implements BookFinderAPI {
     public List<Book> searchByKeywords(Set<String> keywords, MatchOption option) {
         return books.stream()
                 .filter(book -> {
-                    Set<String> titleWords = new HashSet<>(Set.of(book.title().split(" ")));
-                    Set<String> descriptionWords = new HashSet<>(Set.of(book.description().split(" ")));
+                    Set<String> titleWords = new HashSet<>(tokenizer.tokenize(book.title()));
+                    Set<String> descriptionWords = new HashSet<>(tokenizer.tokenize(book.description()));
 
                     if (option == MatchOption.MATCH_ALL) {
                         return titleWords.containsAll(keywords) || descriptionWords.containsAll(keywords);
