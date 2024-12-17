@@ -5,12 +5,18 @@ import bg.sofia.uni.fmi.mjt.goodreads.tokenizer.TextTokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static bg.sofia.uni.fmi.mjt.goodreads.utils.MathConstants.DELTA;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 class TFIDFSimilarityCalculatorTest {
     private TFIDFSimilarityCalculator calculator;
