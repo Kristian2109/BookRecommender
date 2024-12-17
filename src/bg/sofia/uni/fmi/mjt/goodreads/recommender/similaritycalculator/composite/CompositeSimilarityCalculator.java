@@ -21,5 +21,11 @@ public class CompositeSimilarityCalculator implements SimilarityCalculator {
                 .mapToDouble((entry) -> entry.getKey().calculateSimilarity(first, second) * entry.getValue())
                 .sum();
     }
-    
+
+//    private void validateCalculatorsScore(Map<SimilarityCalculator, Double> similarityCalculators) {
+//        double weightsSum = similarityCalculators.values().stream().mapToDouble(a -> a).sum();
+//        if (weightsSum != 1) {
+//
+//        }
+//    }
 }
