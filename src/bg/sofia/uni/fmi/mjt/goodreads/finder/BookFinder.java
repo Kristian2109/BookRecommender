@@ -41,11 +41,11 @@ public class BookFinder implements BookFinderAPI {
                     Set<String> genresSet = new HashSet<>(book.genres());
                     if (option == MatchOption.MATCH_ALL) {
                         return genresSet.containsAll(genres);
-                    } else if (option == MatchOption.MATCH_ANY) {
-                        genresSet.retainAll(genres);
-                        return genresSet.size() != 0;
                     }
-                    return false;
+
+                    genresSet.retainAll(genres);
+
+                    return genresSet.size() != 0;
                 })
                 .toList();
     }
@@ -59,12 +59,13 @@ public class BookFinder implements BookFinderAPI {
 
                     if (option == MatchOption.MATCH_ALL) {
                         return titleWords.containsAll(keywords) || descriptionWords.containsAll(keywords);
-                    } else if (option == MatchOption.MATCH_ANY) {
-                        titleWords.retainAll(keywords);
-                        descriptionWords.retainAll(keywords);
-                        return titleWords.size() != 0 || descriptionWords.size() != 0;
                     }
-                    return false;
+
+                    titleWords.retainAll(keywords);
+                    descriptionWords.retainAll(keywords);
+
+                    return titleWords.size() != 0 || descriptionWords.size() != 0;
+
                 })
                 .toList();
     }

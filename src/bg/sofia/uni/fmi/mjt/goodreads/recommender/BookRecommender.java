@@ -26,6 +26,7 @@ public class BookRecommender implements BookRecommenderAPI {
     public SortedMap<Book, Double> recommendBooks(Book origin, int maxN) {
         Map<Book, Double> booksByScore =  initialBooks
                 .parallelStream()
+                .filter(b -> !b.equals(origin))
                 .map(book -> new BookAndScore(book, calculator.calculateSimilarity(origin, book)))
                 .collect(Collectors.toMap(
                         BookAndScore::book,
@@ -36,7 +37,6 @@ public class BookRecommender implements BookRecommenderAPI {
 
         return booksByScore.entrySet().stream()
                 .sorted((a, b) -> Double.compare(booksByScore.get(b.getKey()), booksByScore.get(a.getKey())))
-                .skip(1)
                 .limit(maxN)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
