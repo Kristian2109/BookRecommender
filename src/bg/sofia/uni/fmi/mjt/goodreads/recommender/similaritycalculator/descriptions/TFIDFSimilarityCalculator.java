@@ -4,8 +4,13 @@ import bg.sofia.uni.fmi.mjt.goodreads.book.Book;
 import bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.SimilarityCalculator;
 import bg.sofia.uni.fmi.mjt.goodreads.tokenizer.TextTokenizer;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Collection;
 
 
 public class TFIDFSimilarityCalculator implements SimilarityCalculator {
@@ -57,12 +62,12 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     }
 
     public Map<String, Double> computeIDF(Book book) {
-        Map<String, Set<Book>> booksContainingEveryWords = new HashMap<>();
+        Map<String, Set<Book>> booksByWords = new HashMap<>();
         books.forEach(b -> {
             List<String> bookTokens = tokenizer.tokenize(b.description());
             bookTokens.forEach(token -> {
-                booksContainingEveryWords.putIfAbsent(token, new HashSet<>());
-                booksContainingEveryWords.get(token).add(b);
+                booksByWords.putIfAbsent(token, new HashSet<>());
+                booksByWords.get(token).add(b);
             });
         });
 
@@ -70,8 +75,8 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
                 .collect(Collectors.toMap(
                         token -> token,
                         (token) -> {
-                            int booksContainingTokenCount = booksContainingEveryWords.get(token).size();
-                            return Math.log((double) books.size() / booksContainingTokenCount);
+                            int booksContainingTokenCount = booksByWords.get(token).size();
+                            return Math.log10((double) books.size() / booksContainingTokenCount);
                         }
                 ));
     }

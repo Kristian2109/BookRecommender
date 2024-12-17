@@ -3,9 +3,11 @@ package bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.composit
 import bg.sofia.uni.fmi.mjt.goodreads.book.Book;
 import bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.SimilarityCalculator;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.EqualsWithDelta;
 
 import java.util.Map;
 
+import static bg.sofia.uni.fmi.mjt.goodreads.utils.MathConstants.DELTA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,6 +35,6 @@ class CompositeSimilarityCalculatorTest {
 
         double actualScore = calculator.calculateSimilarity(firstBook, secondBook);
 
-        assertEquals(expectedSimilarity, actualScore, "Invalid similarity");
+        assertEquals(expectedSimilarity, actualScore, DELTA, "Invalid similarity");
     }
 }

@@ -27,7 +27,6 @@ class GenresOverlapSimilarityCalculatorTest {
         when(secondBook.genres()).thenReturn(List.of("genre2", "genre8", "genre9", "genre5"));
         double expectedScore = 0.5;
 
-        assertEquals(expectedScore, calculator.calculateSimilarity(firstBook, secondBook),
-                "Invalid score");
+        assertEquals(expectedScore, calculator.calculateSimilarity(firstBook, secondBook), "Invalid score");
     }
 }
