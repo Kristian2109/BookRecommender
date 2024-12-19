@@ -82,6 +82,7 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
         });
 
         return tokenizer.tokenize(book.description()).stream()
+                .distinct()
                 .collect(Collectors.toMap(
                         token -> token,
                         (token) -> {
