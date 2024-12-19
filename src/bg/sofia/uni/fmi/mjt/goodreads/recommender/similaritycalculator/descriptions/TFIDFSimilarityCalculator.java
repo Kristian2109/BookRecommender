@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.Collection;
 
+import static bg.sofia.uni.fmi.mjt.goodreads.utils.Validators.validateArgumentsNotNull;
+
 
 public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     private final TextTokenizer tokenizer;
@@ -27,6 +29,8 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
      */
     @Override
     public double calculateSimilarity(Book first, Book second) {
+        validateArgumentsNotNull(new Object[]{first, second});
+
         Map<String, Double> tfIdfScoresFirst = computeTFIDF(first);
         Map<String, Double> tfIdfScoresSecond = computeTFIDF(second);
 
@@ -34,6 +38,8 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     }
 
     public Map<String, Double> computeTFIDF(Book book) {
+        validateArgumentsNotNull(new Object[]{book});
+
         Map<String, Double> tfScores = computeTF(book);
         Map<String, Double> idfScores = computeIDF(book);
 
@@ -46,6 +52,8 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     }
 
     public Map<String, Double> computeTF(Book book) {
+        validateArgumentsNotNull(new Object[]{book});
+
         List<String> tokens = tokenizer.tokenize(book.description());
         Map<String, Integer> wordsCounts = new HashMap<>();
         tokens.forEach(token -> {
@@ -62,6 +70,8 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     }
 
     public Map<String, Double> computeIDF(Book book) {
+        validateArgumentsNotNull(new Object[]{book});
+
         Map<String, Set<Book>> booksByWords = new HashMap<>();
         books.forEach(b -> {
             List<String> bookTokens = tokenizer.tokenize(b.description());

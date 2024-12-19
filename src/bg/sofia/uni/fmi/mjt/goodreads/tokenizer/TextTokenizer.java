@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TextTokenizer implements TextTokenizerApi {
+import static bg.sofia.uni.fmi.mjt.goodreads.utils.Validators.validateArgumentsNotNull;
+
+public class TextTokenizer {
     
     private final Set<String> stopwords;
 
@@ -21,6 +23,8 @@ public class TextTokenizer implements TextTokenizerApi {
     }
 
     public List<String> tokenize(String input) {
+        validateArgumentsNotNull(new Object[] {input});
+
         return Arrays.stream(input
                         .replaceAll("\\p{Punct}", "")
                         .split("\\s+")
