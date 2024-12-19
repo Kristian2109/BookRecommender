@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 class TFIDFSimilarityCalculatorTest {
     private TFIDFSimilarityCalculator calculator;
@@ -30,7 +30,8 @@ class TFIDFSimilarityCalculatorTest {
         books.add(targetBook);
 
         TextTokenizer tokenizer = mock(TextTokenizer.class);
-        when(tokenizer.tokenize(anyString())).thenAnswer(invocation -> List.of(invocation.getArgument(0, String.class).split(" ")));
+        when(tokenizer.tokenize(anyString())).thenAnswer(invocation ->
+                List.of(invocation.getArgument(0, String.class).split(" ")));
 
         calculator = spy(new TFIDFSimilarityCalculator(books, tokenizer));
     }
@@ -65,7 +66,8 @@ class TFIDFSimilarityCalculatorTest {
 
     @Test
     void computeTF() {
-        Map<String, Double> expectedSimilarities = Map.of("book", 0.1, "good", 0.3, "really", 0.1, "very", 0.1, "together", 0.1, "more", 0.3);
+        Map<String, Double> expectedSimilarities = Map.of("book", 0.1, "good", 0.3, "really", 0.1,
+                "very", 0.1, "together", 0.1, "more", 0.3);
         String targetDescription = "book good really good very good more together more more";
         when(targetBook.description()).thenReturn(targetDescription);
         assertEquals(expectedSimilarities, calculator.computeTF(targetBook));
@@ -73,7 +75,8 @@ class TFIDFSimilarityCalculatorTest {
 
     @Test
     void computeIDF() {
-        List<String> mockedDescriptions = List.of("cat notcat dog snoopdog animal", "zero cat house mouse", "cat cat dog minimal");
+        List<String> mockedDescriptions = List.of("cat notcat dog snoopdog animal", "zero cat house mouse",
+                "cat cat dog minimal");
 
         mockedDescriptions.forEach(description -> {
             Book mockedBook = mock(Book.class);
@@ -84,7 +87,8 @@ class TFIDFSimilarityCalculatorTest {
         String targetDescription = "cat dog animal";
         when(targetBook.description()).thenReturn(targetDescription);
 
-        Map<String, Double> expectedSimilarities = Map.of("cat", 0.0, "dog", 0.1249, "animal", 0.3010);
+        Map<String, Double> expectedSimilarities = Map.of("cat", 0.0, "dog", 0.1249,
+                "animal", 0.3010);
 
         assertWordSimilaritiesEqual(expectedSimilarities, calculator.computeIDF(targetBook));
     }

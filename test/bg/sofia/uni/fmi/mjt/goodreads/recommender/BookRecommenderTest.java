@@ -21,8 +21,9 @@ class BookRecommenderTest {
     private SimilarityCalculator calculatorMock;
 
     private BookRecommender recommender;
-    private Set<Book> books;
-    private Book targetBook, book2, book3, book4, book5;
+    private Book targetBook;
+    private Book book2;
+    private Book book3;
 
     @BeforeEach
     public void setUp() {
@@ -31,10 +32,10 @@ class BookRecommenderTest {
         targetBook = mock(Book.class);
         book2 = mock(Book.class);
         book3 = mock(Book.class);
-        book4 = mock(Book.class);
-        book5 = mock(Book.class);
+        Book book4 = mock(Book.class);
+        Book book5 = mock(Book.class);
 
-        books = Set.of(book2, book4, book5, targetBook, book3);
+        Set<Book> books = Set.of(book2, book4, book5, targetBook, book3);
 
         when(calculatorMock.calculateSimilarity(targetBook, book2)).thenReturn(0.8);
         when(calculatorMock.calculateSimilarity(targetBook, book3)).thenReturn(0.6);

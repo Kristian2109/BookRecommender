@@ -25,6 +25,7 @@ class CompositeSimilarityCalculatorTest {
 
         Map<SimilarityCalculator, Double> calculatorsByWeight =
                 Map.of(firstCalculator, 0.4, secondCalculator, 0.3, thirdCalculator, 0.3);
+
         when(firstCalculator.calculateSimilarity(firstBook, secondBook)).thenReturn(5.0);
         when(secondCalculator.calculateSimilarity(firstBook, secondBook)).thenReturn(1.0);
         when(thirdCalculator.calculateSimilarity(firstBook, secondBook)).thenReturn(2.0);
