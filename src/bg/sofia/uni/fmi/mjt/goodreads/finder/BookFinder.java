@@ -3,9 +3,13 @@ package bg.sofia.uni.fmi.mjt.goodreads.finder;
 import bg.sofia.uni.fmi.mjt.goodreads.book.Book;
 import bg.sofia.uni.fmi.mjt.goodreads.tokenizer.TextTokenizer;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static bg.sofia.uni.fmi.mjt.goodreads.utils.Validators.validateArgumentsNotNull;
 
 public class BookFinder implements BookFinderAPI {
     private final Set<Book> books;
@@ -22,52 +26,51 @@ public class BookFinder implements BookFinderAPI {
 
     @Override
     public List<Book> searchByAuthor(String authorName) {
-        return books.stream()
-                .filter(book -> book.author().equals(authorName))
-                .toList();
+        if (authorName == null || authorName.isBlank()) {
+            throw new IllegalArgumentException("Invalid authorName");
+        }
+
+        return books.stream().filter(book -> book.author().equals(authorName)).toList();
     }
 
     @Override
     public Set<String> allGenres() {
-        return books.stream()
-                .flatMap(book -> book.genres().stream())
-                .collect(Collectors.toSet());
+        return books.stream().flatMap(book -> book.genres().stream()).collect(Collectors.toSet());
     }
 
     @Override
     public List<Book> searchByGenres(Set<String> genres, MatchOption option) {
-        return books.stream()
-                .filter(book -> {
-                    Set<String> genresSet = new HashSet<>(book.genres());
-                    if (option == MatchOption.MATCH_ALL) {
-                        return genresSet.containsAll(genres);
-                    }
+        validateArgumentsNotNull(new Object[]{genres, option});
 
-                    genresSet.retainAll(genres);
+        return books.stream().filter(book -> {
+            Set<String> genresSet = new HashSet<>(book.genres());
+            if (option == MatchOption.MATCH_ALL) {
+                return genresSet.containsAll(genres);
+            }
 
-                    return genresSet.size() != 0;
-                })
-                .toList();
+            genresSet.retainAll(genres);
+
+            return genresSet.size() != 0;
+        }).toList();
     }
 
     @Override
     public List<Book> searchByKeywords(Set<String> keywords, MatchOption option) {
-        return books.stream()
-                .filter(book -> {
-                    Set<String> titleWords = new HashSet<>(tokenizer.tokenize(book.title()));
-                    Set<String> descriptionWords = new HashSet<>(tokenizer.tokenize(book.description()));
+        validateArgumentsNotNull(new Object[]{keywords, option});
 
-                    if (option == MatchOption.MATCH_ALL) {
-                        return titleWords.containsAll(keywords) || descriptionWords.containsAll(keywords);
-                    }
+        return books.stream().filter(book -> {
+            Set<String> titleWords = new HashSet<>(tokenizer.tokenize(book.title()));
+            Set<String> descriptionWords = new HashSet<>(tokenizer.tokenize(book.description()));
 
-                    titleWords.retainAll(keywords);
-                    descriptionWords.retainAll(keywords);
+            if (option == MatchOption.MATCH_ALL) {
+                return titleWords.containsAll(keywords) || descriptionWords.containsAll(keywords);
+            }
 
-                    return titleWords.size() != 0 || descriptionWords.size() != 0;
+            titleWords.retainAll(keywords);
+            descriptionWords.retainAll(keywords);
 
-                })
-                .toList();
+            return titleWords.size() != 0 || descriptionWords.size() != 0;
+
+        }).toList();
     }
-    
 }

@@ -2,16 +2,8 @@ package bg.sofia.uni.fmi.mjt.goodreads.book;
 
 import java.util.List;
 
-public record Book(
-        String ID,
-        String title,
-        String author,
-        String description,
-        List<String> genres,
-        double rating,
-        int ratingCount,
-        String URL
-) {
+public record Book(String ID, String title, String author, String description, List<String> genres, double rating,
+                   int ratingCount, String URL) {
 
     private static final int TOKENS_COUNT = 8;
     private static final int ID_POSITION = 0;
@@ -24,7 +16,7 @@ public record Book(
     private static final int URL_POSITION = 7;
 
     public static Book of(String[] tokens) {
-        if (tokens == null || tokens.length < TOKENS_COUNT) {
+        if (tokens == null || tokens.length != TOKENS_COUNT) {
             throw new IllegalArgumentException("Invalid tokens array");
         }
 
@@ -33,11 +25,7 @@ public record Book(
             String title = tokens[TITLE_POSITION];
             String author = tokens[AUTHOR_POSITION];
             String description = tokens[DESCRIPTION_POSITION];
-            List<String> genres = List.of(tokens[GENRES_POSITION]
-                    .replace("[", "")
-                    .replace("]", "")
-                    .replace("'", "")
-                    .split(",\\s*"));
+            List<String> genres = List.of(tokens[GENRES_POSITION].replace("[", "").replace("]", "").replace("'", "").split(",\\s*"));
             double rating = Double.parseDouble(tokens[RATING_POSITION]);
             int ratingCount = Integer.parseInt(tokens[RATING_COUNT_POSITION].replace(",", ""));
             String url = tokens[URL_POSITION];

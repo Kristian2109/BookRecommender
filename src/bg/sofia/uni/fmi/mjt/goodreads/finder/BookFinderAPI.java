@@ -25,9 +25,9 @@ public interface BookFinderAPI {
      * Searches for books by the specified author name.
      *
      * @param authorName the name of the author to search for.
-     * @throws IllegalArgumentException if the author name if null or empty
      * @return a List of books written by the specified author.
-     *         Returns an empty list if no books are found.
+     * Returns an empty list if no books are found.
+     * @throws IllegalArgumentException if the author name if null or empty
      */
     List<Book> searchByAuthor(String authorName);
 
@@ -36,9 +36,9 @@ public interface BookFinderAPI {
      * The search can be based on different match options (all or any genres).
      *
      * @param genres a Set of genres to search for.
-     * @throws IllegalArgumentException if {@param genres} is null
      * @return a List of books that match the given genres according to the MatchOption
-     *         Returns an empty list if no books are found.
+     * Returns an empty list if no books are found.
+     * @throws IllegalArgumentException if {@param genres} is null
      */
     List<Book> searchByGenres(Set<String> genres, MatchOption option);
 
@@ -47,11 +47,11 @@ public interface BookFinderAPI {
      * The search can be based on different match options (all or any keywords).
      *
      * @param keywords a {@code Set} of keywords to search for.
-     * @param option the {@code MatchOption} that defines the search criteria
-     *               (either {@link MatchOption#MATCH_ALL} or {@link MatchOption#MATCH_ANY}).
+     * @param option   the {@code MatchOption} that defines the search criteria
+     *                 (either {@link MatchOption#MATCH_ALL} or {@link MatchOption#MATCH_ANY}).
      * @return a List of books that match the given keywords according to the MatchOption
-     *         Returns an empty list if no books are found.
+     * Returns an empty list if no books are found.
      */
     List<Book> searchByKeywords(Set<String> keywords, MatchOption option);
-    
+
 }
