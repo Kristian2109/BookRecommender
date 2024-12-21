@@ -25,7 +25,13 @@ public record Book(String ID, String title, String author, String description, L
             String title = tokens[TITLE_POSITION];
             String author = tokens[AUTHOR_POSITION];
             String description = tokens[DESCRIPTION_POSITION];
-            List<String> genres = List.of(tokens[GENRES_POSITION].replace("[", "").replace("]", "").replace("'", "").split(",\\s*"));
+            List<String> genres =
+                List.of(tokens[GENRES_POSITION]
+                    .replace("[", "")
+                    .replace("]", "")
+                    .replace("'", "")
+                    .split(",\\s*"));
+
             double rating = Double.parseDouble(tokens[RATING_POSITION]);
             int ratingCount = Integer.parseInt(tokens[RATING_COUNT_POSITION].replace(",", ""));
             String url = tokens[URL_POSITION];

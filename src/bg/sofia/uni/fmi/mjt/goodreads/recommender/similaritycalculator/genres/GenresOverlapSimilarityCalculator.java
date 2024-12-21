@@ -9,15 +9,15 @@ public class GenresOverlapSimilarityCalculator implements SimilarityCalculator {
 
     @Override
     public double calculateSimilarity(Book first, Book second) {
-        validateArgumentsNotNull(new Object[]{first, second});
+        validateArgumentsNotNull(new Object[] {first, second});
 
         int similarGenresCount = (int) first.genres().stream()
-                .filter(genre -> second.genres().contains(genre))
-                .count();
+            .filter(genre -> second.genres().contains(genre))
+            .count();
 
         if (similarGenresCount == 0) return 0.0;
+        int minimalGenresCount = Math.min(first.genres().size(), second.genres().size());
 
-        return (double) similarGenresCount / Math.min(first.genres().size(), second.genres().size());
+        return (double) similarGenresCount / minimalGenresCount;
     }
-    
 }

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static bg.sofia.uni.fmi.mjt.goodreads.utils.Validators.validateArgumentsNotNull;
 
 public class TextTokenizer {
-    
+
     private final Set<String> stopwords;
 
     public TextTokenizer(Reader stopwordsReader) {
@@ -24,14 +24,13 @@ public class TextTokenizer {
 
     public List<String> tokenize(String input) {
         validateArgumentsNotNull(new Object[] {input});
-
         return Arrays.stream(input
-                        .replaceAll("\\p{Punct}", "")
-                        .split("\\s+")
-                )
-                .map(String::toLowerCase)
-                .filter(word -> !stopwords.contains(word))
-                .toList();
+                .replaceAll("\\p{Punct}", "")
+                .split("\\s+")
+            )
+            .map(String::toLowerCase)
+            .filter(word -> !stopwords.contains(word))
+            .toList();
     }
 
     public Set<String> stopwords() {

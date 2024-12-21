@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -59,11 +58,11 @@ class BookRecommenderTest {
         assertEquals(0.8, first.getValue(), "Invalid first book score");
         assertEquals(0.6, second.getValue(), "Invalid second book score");
     }
-//
+
     @Test
     public void testRecommendBooksWithMaxNGreaterThanAvailable() {
         SortedMap<Book, Double> recommendations = recommender.recommendBooks(targetBook, 10);
 
-        assertEquals( 4, recommendations.size(), "Should return only available recommendations");
+        assertEquals(4, recommendations.size(), "Should return only available recommendations");
     }
 }

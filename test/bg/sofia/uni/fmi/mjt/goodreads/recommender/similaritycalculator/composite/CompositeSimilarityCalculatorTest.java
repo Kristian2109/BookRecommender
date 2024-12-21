@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.composit
 import bg.sofia.uni.fmi.mjt.goodreads.book.Book;
 import bg.sofia.uni.fmi.mjt.goodreads.recommender.similaritycalculator.SimilarityCalculator;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.EqualsWithDelta;
 
 import java.util.Map;
 
@@ -24,7 +23,7 @@ class CompositeSimilarityCalculatorTest {
         SimilarityCalculator thirdCalculator = mock(SimilarityCalculator.class);
 
         Map<SimilarityCalculator, Double> calculatorsByWeight =
-                Map.of(firstCalculator, 0.4, secondCalculator, 0.3, thirdCalculator, 0.3);
+            Map.of(firstCalculator, 0.4, secondCalculator, 0.3, thirdCalculator, 0.3);
 
         when(firstCalculator.calculateSimilarity(firstBook, secondBook)).thenReturn(5.0);
         when(secondCalculator.calculateSimilarity(firstBook, secondBook)).thenReturn(1.0);

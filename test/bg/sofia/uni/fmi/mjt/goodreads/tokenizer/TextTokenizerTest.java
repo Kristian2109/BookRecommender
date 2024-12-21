@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.goodreads.tokenizer;
 
 import org.junit.jupiter.api.Test;
+
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;

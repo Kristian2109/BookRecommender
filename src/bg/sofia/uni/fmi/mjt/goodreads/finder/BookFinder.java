@@ -40,7 +40,7 @@ public class BookFinder implements BookFinderAPI {
 
     @Override
     public List<Book> searchByGenres(Set<String> genres, MatchOption option) {
-        validateArgumentsNotNull(new Object[]{genres, option});
+        validateArgumentsNotNull(new Object[] {genres, option});
 
         return books.stream().filter(book -> {
             Set<String> genresSet = new HashSet<>(book.genres());
@@ -56,20 +56,20 @@ public class BookFinder implements BookFinderAPI {
 
     @Override
     public List<Book> searchByKeywords(Set<String> keywords, MatchOption option) {
-        validateArgumentsNotNull(new Object[]{keywords, option});
+        validateArgumentsNotNull(new Object[] {keywords, option});
 
         return books.stream().filter(book -> {
-            Set<String> titleWords = new HashSet<>(tokenizer.tokenize(book.title()));
-            Set<String> descriptionWords = new HashSet<>(tokenizer.tokenize(book.description()));
+            Set<String> allWords = new HashSet<>();
+            allWords.addAll(tokenizer.tokenize(book.title()));
+            allWords.addAll(tokenizer.tokenize(book.description()));
 
             if (option == MatchOption.MATCH_ALL) {
-                return titleWords.containsAll(keywords) || descriptionWords.containsAll(keywords);
+                return allWords.containsAll(keywords);
             }
 
-            titleWords.retainAll(keywords);
-            descriptionWords.retainAll(keywords);
+            allWords.retainAll(keywords);
 
-            return titleWords.size() != 0 || descriptionWords.size() != 0;
+            return allWords.size() != 0;
 
         }).toList();
     }

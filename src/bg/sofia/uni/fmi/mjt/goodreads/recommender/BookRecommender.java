@@ -17,7 +17,7 @@ public class BookRecommender implements BookRecommenderAPI {
     private final SimilarityCalculator calculator;
 
     public BookRecommender(Set<Book> initialBooks, SimilarityCalculator calculator) {
-        validateArgumentsNotNull(new Object[]{initialBooks, calculator});
+        validateArgumentsNotNull(new Object[] {initialBooks, calculator});
 
         this.calculator = calculator;
         this.initialBooks = initialBooks;
@@ -28,26 +28,27 @@ public class BookRecommender implements BookRecommenderAPI {
         validateArgumentsNotNull(new Object[] {origin, maxN});
 
         Map<Book, Double> booksByScore = initialBooks
-                .parallelStream()
-                .filter(b -> !b.equals(origin))
-                .map(book -> new BookAndScore(book, calculator.calculateSimilarity(origin, book)))
-                .collect(Collectors.toMap(
-                        BookAndScore::book,
-                        BookAndScore::score,
-                        (existing, replacement) -> existing,
-                        HashMap::new
-                ));
+            .parallelStream()
+            .filter(b -> !b.equals(origin))
+            .map(book -> new BookAndScore(book, calculator.calculateSimilarity(origin, book)))
+            .collect(Collectors.toMap(
+                BookAndScore::book,
+                BookAndScore::score,
+                (existing, replacement) -> existing,
+                HashMap::new
+            ));
 
         return booksByScore.entrySet().stream()
-                .sorted((a, b) -> Double.compare(booksByScore.get(b.getKey()), booksByScore.get(a.getKey())))
-                .limit(maxN)
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (existing, replacement) -> existing,
-                        () -> new TreeMap<>((a, b) -> Double.compare(booksByScore.get(b), booksByScore.get(a)))
-                ));
+            .sorted((a, b) -> Double.compare(booksByScore.get(b.getKey()), booksByScore.get(a.getKey())))
+            .limit(maxN)
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (existing, replacement) -> existing,
+                () -> new TreeMap<>((a, b) -> Double.compare(booksByScore.get(b), booksByScore.get(a)))
+            ));
     }
 
-    private record BookAndScore(Book book, Double score) {}
+    private record BookAndScore(Book book, Double score) {
+    }
 }
