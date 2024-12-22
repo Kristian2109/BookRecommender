@@ -14,14 +14,16 @@ import java.util.stream.Collectors;
 
 import static bg.sofia.uni.fmi.mjt.goodreads.utils.Validators.validateArgumentsNotNull;
 
-
 public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     private final TextTokenizer tokenizer;
     private final Set<Book> books;
 
+    private Map<String, Set<Book>> booksByWords;
+
     public TFIDFSimilarityCalculator(Set<Book> books, TextTokenizer tokenizer) {
         this.tokenizer = tokenizer;
         this.books = books;
+        this.booksByWords = null;
     }
 
     /*
@@ -72,14 +74,9 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
     public Map<String, Double> computeIDF(Book book) {
         validateArgumentsNotNull(new Object[] {book});
 
-        Map<String, Set<Book>> booksByWords = new HashMap<>();
-        books.forEach(b -> {
-            List<String> bookTokens = tokenizer.tokenize(b.description());
-            bookTokens.forEach(token -> {
-                booksByWords.putIfAbsent(token, new HashSet<>());
-                booksByWords.get(token).add(b);
-            });
-        });
+        if (booksByWords == null) {
+            setBooksByWords();
+        }
 
         return tokenizer.tokenize(book.description()).stream()
             .distinct()
@@ -90,6 +87,17 @@ public class TFIDFSimilarityCalculator implements SimilarityCalculator {
                     return Math.log10((double) books.size() / booksContainingTokenCount);
                 }
             ));
+    }
+
+    private void setBooksByWords() {
+        booksByWords = new HashMap<>();
+        books.forEach(b -> {
+            List<String> bookTokens = tokenizer.tokenize(b.description());
+            bookTokens.forEach(token -> {
+                booksByWords.putIfAbsent(token, new HashSet<>());
+                booksByWords.get(token).add(b);
+            });
+        });
     }
 
     private double cosineSimilarity(Map<String, Double> first, Map<String, Double> second) {
