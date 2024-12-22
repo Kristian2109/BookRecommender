@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TextTokenizerTest {
 
-    private final static String STOPWORDS_INPUT = "a\nan\nthe\nof\nand\nfor\nover\n";
+    private static final String STOPWORDS_INPUT = "a\nan\nthe\nof\nand\nfor\nover\n";
 
     @Test
     void readsProperlyStopwords() {

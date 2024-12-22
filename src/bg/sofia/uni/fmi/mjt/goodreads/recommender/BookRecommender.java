@@ -28,7 +28,7 @@ public class BookRecommender implements BookRecommenderAPI {
         validateArgumentsNotNull(new Object[] {origin, maxN});
 
         Map<Book, Double> booksByScore = initialBooks
-            .parallelStream()
+            .stream()
             .filter(b -> !b.equals(origin))
             .map(book -> new BookAndScore(book, calculator.calculateSimilarity(origin, book)))
             .collect(Collectors.toMap(
